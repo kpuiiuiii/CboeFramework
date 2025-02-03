@@ -12,8 +12,8 @@ public class ContactUsPage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    @FindBy(xpath = "//div[@class='cky-consent-bar']//button[contains(text(), 'Accept All')]")
-    public WebElement cookiesAcceptButton;
+    @FindBy(xpath = "//button[@data-cky-tag='close-button']")
+    public WebElement cookiesCloseButton;
 
     @FindBy(xpath = "//input[@name='first_name']")
     public  WebElement firstNameInput;
