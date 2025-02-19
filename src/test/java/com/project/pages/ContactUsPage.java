@@ -12,42 +12,85 @@ public class ContactUsPage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    @FindBy(xpath = "//button[@data-cky-tag='close-button']")
-    public WebElement cookiesCloseButton;
-
     @FindBy(xpath = "//input[@name='first_name']")
-    public  WebElement firstNameInput;
+    private WebElement firstNameInput;
 
     @FindBy(xpath = "//input[@name='last_name']")
-    public WebElement lastNameInput;
+    private WebElement lastNameInput;
 
     @FindBy(xpath = "//input[@name='email']")
-    public WebElement emailInput;
+    private WebElement emailInput;
 
     @FindBy(xpath = "//input[@name='phone_number']")
-    public WebElement phoneNameInput;
+    private WebElement phoneNameInput;
 
     @FindBy(xpath = "//form[@action='submit/']//*[local-name()='svg']")
-    public WebElement topicDropdownArrowButton;
+    private WebElement topicDropdownArrowButton;
 
     @FindBy(xpath = "//*[contains(text(), 'Careers (HR)')]")
-    public WebElement dropdownCareersOption;
+    private WebElement dropdownCareersOption;
 
     @FindBy(xpath = "//input[@name='company']")
-    public WebElement companyInput;
+    private WebElement companyInput;
 
     @FindBy(xpath = "//input[@name='subject']")
-    public WebElement subjectInput;
+    private WebElement subjectInput;
 
     @FindBy(xpath = "//textarea[@name='message']")
-    public WebElement messageInput;
+    private WebElement messageInput;
 
     @FindBy(xpath = "//button[@type='submit']")
-    public WebElement submitButton;
+    private WebElement submitButton;
 
     @FindBy(xpath = "//form[@action='submit/']//*[local-name()='div' and contains(text(), 'This field is required')]")
-    public WebElement emailErrorMessage;
+    private WebElement emailErrorMessage;
 
+    // --- Getters for WebElements ---
+    // It is a good practice create methods to get the WebElements
+
+    public WebElement getFirstNameInput() {
+        return firstNameInput;
+    }
+
+    public WebElement getLastNameInput() {
+        return lastNameInput;
+    }
+
+    public WebElement getEmailInput() {
+        return emailInput;
+    }
+
+    public WebElement getPhoneNameInput() {
+        return phoneNameInput;
+    }
+
+    public WebElement getTopicDropdownArrowButton() {
+        return topicDropdownArrowButton;
+    }
+
+    public WebElement getDropdownCareersOption() {
+        return dropdownCareersOption;
+    }
+
+    public WebElement getCompanyInput() {
+        return companyInput;
+    }
+
+    public WebElement getSubjectInput() {
+        return subjectInput;
+    }
+
+    public WebElement getMessageInput() {
+        return messageInput;
+    }
+
+    public WebElement getSubmitButton() {
+        return submitButton;
+    }
+
+    public WebElement getEmailErrorMessage() {
+        return emailErrorMessage;
+    }
 
 
 }
