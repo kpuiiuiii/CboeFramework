@@ -45,8 +45,7 @@ public class ContactUsPage {
     @FindBy(xpath = "//form[@action='submit/']//*[local-name()='div' and contains(text(), 'This field is required')]")
     private WebElement emailErrorMessage;
 
-    // --- Getters for WebElements ---
-    // It is a good practice create methods to get the WebElements
+
 
     public WebElement getFirstNameInput() {
         return firstNameInput;

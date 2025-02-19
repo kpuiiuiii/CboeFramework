@@ -13,7 +13,6 @@ public class QuotesPage{
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    // Locators for elements on the Quotes page
     @FindBy(xpath = "//input[@name='txtSymbol']")
     private WebElement symbolInputTextField;
 

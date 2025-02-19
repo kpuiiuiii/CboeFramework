@@ -11,9 +11,7 @@ public class CboeHomePage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    // Cookie Consent (if needed)
     @FindBy(xpath = "//button[@data-cky-tag='close-button']")
-    // Replace with actual ID
     private WebElement cookiesCloseButton;
 
     @FindBy(xpath = "//section[@class='hero hero--diamonds']//a[@href='/insights/']")

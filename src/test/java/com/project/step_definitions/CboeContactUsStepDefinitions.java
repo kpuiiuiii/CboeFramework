@@ -57,7 +57,7 @@ public class CboeContactUsStepDefinitions {
         logger.info("Navigating to Cboe Contact Us page: {}", CONTACT_US_URL);
         driver.get(CONTACT_US_URL);
 
-        // Handle cookie consent (if present)
+        // Handle cookie consent
         try {
             WebElement cookiesCloseButton = wait.until(ExpectedConditions.visibilityOf(homePage.getCookiesCloseButton()));
             cookiesCloseButton.click();

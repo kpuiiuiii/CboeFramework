@@ -150,7 +150,6 @@ public class CboeQuotesStepDefinitions {
         List<WebElement> listOfBinsAndAsks = quotesPage.getAllAsks();
         listOfBinsAndAsks.addAll(quotesPage.getAllBids());
 
-        // Check if Bid and Ask prices are displayed
         for (WebElement entry : listOfBinsAndAsks) {
             Assert.assertTrue("Bid price should be displayed", entry.isDisplayed());
         }
