@@ -3,6 +3,7 @@ package com.project.step_definitions;
 import com.github.javafaker.Faker;
 import com.project.pages.CboeHomePage;
 import com.project.pages.ContactUsPage;
+import com.project.utilities.ConfigurationReader;
 import com.project.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -15,6 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 
 
@@ -38,7 +41,16 @@ public class CboeContactUsStepDefinitions {
     }
 
     // Constants
-    private static final String CONTACT_US_URL = "https://www.cboe.com/contact/";
+    private static final String CONTACT_US_URL;
+
+    static {
+        try {
+            URI baseUri = new URI(ConfigurationReader.getProperty("base_url") + "/contact/");
+            CONTACT_US_URL = baseUri.toString();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("Invalid base URL: " + ConfigurationReader.getProperty("base_url"), e);
+        }
+    }
 
     @Given("I am on the Cboe Contact Us page")
     public void i_am_on_the_cboe_contact_us_page() {

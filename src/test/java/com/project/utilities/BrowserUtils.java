@@ -16,8 +16,6 @@ import java.util.Set;
 public class BrowserUtils {
 
 
-
-
     public static void switchWindowAndVerify(String expectedInURL, String expectedInTitle){
 
         Set<String> allWindowHandles = Driver.getDriver().getWindowHandles();

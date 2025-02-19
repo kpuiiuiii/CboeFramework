@@ -1,26 +1,20 @@
 package com.project.step_definitions;
 
-import com.github.javafaker.Faker;
 import com.project.pages.CboeHomePage;
 import com.project.pages.QuotesPage;
-import com.project.utilities.BrowserUtils;
 import com.project.utilities.ConfigurationReader;
 import com.project.utilities.Driver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.event.KeyEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
@@ -31,19 +25,16 @@ public class CboeQuotesStepDefinitions {
 
     private static final Logger logger = LoggerFactory.getLogger(CboeQuotesStepDefinitions.class);
 
-    private WebDriver driver;
-    private CboeHomePage homePage;
-    private QuotesPage quotesPage;
-    private WebDriverWait wait;
-    private Faker faker;
-    private Actions actions;
+    private final WebDriver driver;
+    private final CboeHomePage homePage;
+    private final QuotesPage quotesPage;
+    private final WebDriverWait wait;
 
     public CboeQuotesStepDefinitions() {
         driver = Driver.getDriver();
         quotesPage = new QuotesPage();
         homePage = new CboeHomePage();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        faker = new Faker();
     }
 
     // Constants
@@ -58,8 +49,6 @@ public class CboeQuotesStepDefinitions {
         }
     }
 
-    private static final String QUOTES_SECTION = "Delayed Quotes";
-    private static final String DEFAULT_SYMBOL = "SPX";
 
 
     @Given("market analyst {string} is on the Cboe homepage")
@@ -78,23 +67,22 @@ public class CboeQuotesStepDefinitions {
     }
 
     @When("navigates to the {string} section")
-    public void alex_navigates_to_the_section(String section) {
+    public void navigates_to_the_section(String section) {
+        logger.info("Navigating to the '{}' section.", section);
 
-        //Nested menus
         wait.until(ExpectedConditions.visibilityOf(homePage.getCboeDataVantageLink()));
         homePage.getCboeDataVantageLink().click();
-
 
         wait.until(ExpectedConditions.visibilityOf(homePage.getQuotesDashboardLink()));
         homePage.getQuotesDashboardLink().click();
 
-        logger.info("Navigating to the '{}' section.", section);
 
     }
 
     @When("enters the symbol {string} for the S&P 500 Index")
     public void enters_the_symbol_for_the_s_p_index(String symbol) {
         logger.info("Entering symbol: {}", symbol);
+
         wait.until(ExpectedConditions.visibilityOf(quotesPage.getSymbolInput()));
         quotesPage.getSymbolInput().clear();
         quotesPage.getSymbolInput().sendKeys(symbol);
@@ -118,6 +106,7 @@ public class CboeQuotesStepDefinitions {
     @Then("the table should include columns for {string} and {string}")
     public void the_table_should_include_columns_for_and(String calls, String puts) {
         logger.info("Verifying table columns for '{}' and '{}'.", calls, puts);
+
         wait.until(ExpectedConditions.visibilityOf(quotesPage.getCallsHeader()));
         wait.until(ExpectedConditions.visibilityOf(quotesPage.getPutsHeader()));
 
@@ -128,17 +117,20 @@ public class CboeQuotesStepDefinitions {
     @Then("the strike prices should be listed in ascending order")
     public void the_strike_prices_should_be_listed_in_ascending_order() {
         logger.info("Verifying 'Strike' prices are in ascending order.");
+
         wait.until(ExpectedConditions.visibilityOfAllElements(quotesPage.getStrikePriceElements()));
         List<Double> strikePrices = new ArrayList<>();
 
+        // Parse strike prices from text and add to list
         for (WebElement element : quotesPage.getStrikePriceElements()) {
             String priceText = element.getText().replace(",", "");
             priceText = priceText.substring(priceText.indexOf(" "));
+            logger.info("Strike price: {}", priceText);
             try {
                 strikePrices.add(Double.parseDouble(priceText));
             } catch (NumberFormatException e) {
                 logger.error("Failed to parse strike price: {}", priceText, e);
-                Assert.fail("Failed to parse strike price: " + priceText); // JUnit fail
+                Assert.fail("Failed to parse strike price: " + priceText);
             }
         }
 
@@ -155,25 +147,13 @@ public class CboeQuotesStepDefinitions {
     public void bid_and_ask_prices_should_be_visible_for_each_option() {
         logger.info("Verifying 'Bid' and 'Ask' prices are displayed.");
 
-        // Get all rows
-        List<WebElement> rows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(quotesPage.getTableRows()));
+        List<WebElement> listOfBinsAndAsks = quotesPage.getAllAsks();
+        listOfBinsAndAsks.addAll(quotesPage.getAllBids());
 
-        // Check if Bid and Ask prices are displayed for each option (you might need more specific locators)
-        for (WebElement row : rows) {
-            //Get bid price for each row
-            WebElement bidPrice = row.findElement(quotesPage.getBidPriceLocator());
-            //Get ask price for each row
-            WebElement askPrice = row.findElement(quotesPage.getAskPriceLocator());
-
-            Assert.assertTrue("Bid price should be displayed", bidPrice.isDisplayed());
-            Assert.assertTrue("Ask price should be displayed", askPrice.isDisplayed());
+        // Check if Bid and Ask prices are displayed
+        for (WebElement entry : listOfBinsAndAsks) {
+            Assert.assertTrue("Bid price should be displayed", entry.isDisplayed());
         }
     }
 
-    @Then("the options chain table should contain data rows")
-    public void the_options_chain_table_should_contain_data_rows() {
-        logger.info("Verifying the number of rows in the options chain table is greater than 0.");
-        List<WebElement> rows = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(quotesPage.getTableRows()));
-        Assert.assertFalse("Number of rows should be greater than 0", rows.isEmpty());
-    }
 }

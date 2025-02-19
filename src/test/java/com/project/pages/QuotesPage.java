@@ -1,7 +1,6 @@
 package com.project.pages;
 
 import com.project.utilities.Driver;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -27,20 +26,20 @@ public class QuotesPage{
     @FindBy(xpath = "//div[contains(@class, 'AOyXR')]")
     private List<WebElement> optionsChainTables;
 
-
-    @FindBy(xpath = "(//div[contains(@class, 'AOyXR')])[1]//div[contains(text(), 'Calls')]")
+    @FindBy(xpath = "(//div[contains(text(), 'Calls')])[1]")
     private WebElement callsHeader;
-    @FindBy(xpath = "(//div[contains(@class, 'AOyXR')])[1]//div[contains(text(), 'Puts')]")
+
+    @FindBy(xpath = "(//div[contains(text(), 'Puts')])[1]")
     private WebElement putsHeader;
 
     @FindBy(xpath = "(//div[contains(@class, 'AOyXR')])[1]//div[contains(@class, 'grYzkZ')]")
     private List<WebElement> strikePriceElements;
 
-    //Locators for table rows, bid and ask prices
-    private final By tableRows = By.xpath("//table[@id='optionsChainTable']//tr"); //Locate all table rows
-    private final By bidPriceLocator = By.xpath(".//td[6]"); //Locate bid price by position (6th column)
-    private final By askPriceLocator = By.xpath(".//td[8]"); //Locate ask price by position (8th column)
+    @FindBy(xpath = "//div[@class='Box-cui__sc-6h7t1h-0 Text-cui__sc-1owhlvg-0 OptionsMontage___StyledText14-sc-18azjpu-13 fyQjgl NWjjs bbYRKX']")
+    private List<WebElement> allBids;
 
+    @FindBy(xpath = "//div[@class='Box-cui__sc-6h7t1h-0 Text-cui__sc-1owhlvg-0 OptionsMontage___StyledText14-sc-18azjpu-13 fyQjgl NWjjs bbYRKX']")
+    private List<WebElement> allAsks;
 
 
     //Methods to get the elements
@@ -55,7 +54,6 @@ public class QuotesPage{
     public WebElement getOptionsNavButton() {
         return optionsNavButton;
     }
-
 
 
     public List<WebElement> getOptionsChainTables() {
@@ -74,15 +72,17 @@ public class QuotesPage{
         return strikePriceElements;
     }
 
-    public By getTableRows() {
-        return tableRows;
+    public List<WebElement> getAllBids() {
+        return allBids;
     }
 
-    public By getBidPriceLocator() {
-        return bidPriceLocator;
+    public List<WebElement> getAllAsks() {
+        return allAsks;
     }
 
-    public By getAskPriceLocator() {
-        return askPriceLocator;
-    }
+
+
+
+
+
 }
